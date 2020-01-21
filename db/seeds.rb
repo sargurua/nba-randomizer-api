@@ -5,3 +5,16 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'rest-client'
+require 'json'
+require 'pry'
+
+url = 'http://data.nba.net/data/10s/prod/v1/2019/players.json'
+response = RestClient.get(url)
+data = JSON.parse(response)
+
+activePlayers = data['league']['standard'].select do |player|
+    player['isActive']
+end
+
+p activePlayers.length
