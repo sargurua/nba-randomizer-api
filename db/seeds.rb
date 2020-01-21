@@ -9,12 +9,26 @@ require 'rest-client'
 require 'json'
 require 'pry'
 
-url = 'http://data.nba.net/data/10s/prod/v1/2019/players.json'
-response = RestClient.get(url)
-data = JSON.parse(response)
+playerUrl = 'http://data.nba.net/data/10s/prod/v1/2019/players.json'
+teamUrl = 'http://data.nba.net/data/10s/prod/v1/2019/teams.json'
 
-activePlayers = data['league']['standard'].select do |player|
-    player['isActive']
+playerResponse = RestClient.get(playerUrl)
+playerData = JSON.parse(playerResponse)
+
+teamResponse = RestClient.get(teamUrl)
+teamData = JSON.parse(teamResponse)
+
+activePlayers = playerData['league']['standard'].each do |player|
+    if player['isActive']
+        
+        team = teamData['league']['standard'].find{|el| el['teamId'] == player['teams'].last['teamId']}
+
+        playerHash =  {
+            'name' => player['firstName'] + " " + player['lastName'],
+            'team' => team['city'] + " " + team['nickname'],
+            'position' => player['pos']
+        }
+
+        Player.create(playerHash)
+    end
 end
-
-p activePlayers.length
