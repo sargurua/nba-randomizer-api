@@ -25,7 +25,9 @@ activePlayers = playerData['league']['standard'].each do |player|
 
         playerHash =  {
             'name' => player['firstName'] + " " + player['lastName'],
+            'player_ref' => player['personId'],
             'team' => team['city'] + " " + team['nickname'],
+            'team_ref' => team['teamId'],
             'position' => player['pos']
         }
 

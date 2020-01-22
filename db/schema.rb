@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2020_01_21_195734) do
     t.string "name"
     t.string "team"
     t.string "position"
+    t.string "player_ref"
+    t.string "team_ref"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
