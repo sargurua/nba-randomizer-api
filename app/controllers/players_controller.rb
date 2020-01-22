@@ -5,7 +5,14 @@ class PlayersController < ApplicationController
     end
 
     def random
-        render :json => Player.all.first.as_json
+        returnPlayers = []
+        playerPool = Player.all.to_a
+
+        for i in 0..params[:num_players].to_i do   
+            returnPlayers << playerPool.delete(playerPool.sample)
+        end
+
+        render :json => returnPlayers
     end
 
 end
